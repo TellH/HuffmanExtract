@@ -5,7 +5,7 @@
 #include "BitStream.h"
 
 bool BitStream::getBit(bool& data) {
-    if (stream.empty()) {
+    if (stream.empty()&&!feof(fin)) {
         _getNewByte();
     }
     if (stream.empty()){

@@ -6,35 +6,59 @@
 
 using namespace std;
 
-void encode() {
-    FILE *fin = fopen("C:\\Users\\tlh\\ClionProjects\\Huffman\\temp.bmp", "rb");
-    FILE *fout = fopen("C:\\Users\\tlh\\ClionProjects\\Huffman\\temp.huf", "wb");
+void encode(char src[], char dst[]) {
+    FILE *fin = fopen(src, "rb");
+    FILE *fout = fopen(dst, "wb");
     HuffmanTree::encode(fin, fout);
 }
 
-void decode() {
-    FILE *fin = fopen("C:\\Users\\tlh\\ClionProjects\\Huffman\\temp.huf", "rb");
-    FILE *fout = fopen("C:\\Users\\tlh\\ClionProjects\\Huffman\\temp.bmp", "wb");
-    HuffmanTree::decode(fin,fout);
+void decode(char src[], char dst[]) {
+    FILE *fin = fopen(src, "rb");
+    FILE *fout = fopen(dst, "wb");
+    HuffmanTree::decode(fin, fout);
 }
 
-void readFile() {
-    FILE *fin = fopen("C:\\Users\\tlh\\ClionProjects\\Huffman\\temp.huf", "rb");
-    if (fin == NULL) {
-        cout << "无法打开文件" << endl;
-        return;
-    }
-    int c;
-    while (true) {
-        c = fgetc(fin);
-        cout << c << endl;
-        if (feof(fin)) break;
-    }
-    fclose(fin);
+bool help(int &op) {
+    system("cls");
+    cout<<"|哈夫曼编码实现文件压缩|"<<endl;
+    cout<<"功能: "<<endl;
+    cout<<"_________________________________ "<<endl;
+    cout<<"|输入1：压缩文件|"<<endl;
+    cout<<"|输入2、解压文件|"<<endl;
+    cout<<"|输入0、退出     |"<<endl;
+    cout<<"--------------------------------- "<<endl;
+    do {
+        cout<<"请选择："<<endl;
+        scanf("%d", &op);
+    } while (op < 0 || op > 3);
+    return op ? true : false;
 }
 
 int main() {
-//    encode();
-    decode();
+    int op;
+    char srcFile[100], dstFile[100];
+    while (help(op)) {
+        switch (op) {
+            case 1:
+                cout<<"请输入待压缩文件路径："<<endl;
+                scanf("%s", srcFile);
+                cout<<"请输入压缩文件路径："<<endl;
+                scanf("%s", dstFile);
+                encode(srcFile, dstFile);
+                cout << "压缩完成！" << endl;
+                break;
+            case 2:
+                cout<<"请输入待解压文件路径："<<endl;
+                scanf("%s", srcFile);
+                cout<<"请输入解压后文件路径："<<endl;
+                scanf("%s", dstFile);
+                decode(srcFile, dstFile);
+                cout << "解压完成！" << endl;
+                break;
+        }
+        cout<<"按任意键继续..."<<endl;
+        getchar();
+        getchar();
+    }
     return 0;
 }

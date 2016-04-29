@@ -80,39 +80,3 @@ void MinHeap::push(HuffmanTreeNode &node) {
     _swiftUp(h, size);
 }
 
-HuffmanTreeNode **MinHeap::rankFromMax2Min() {
-    HuffmanTreeNode **copyHeap = new HuffmanTreeNode *[size + 1];//之所以+1，是因为数组下标0用不到
-    for (int i = 1; i <= size; i++) {
-        copyHeap[i] = h[i];
-    }
-    int j = size;
-    while (j > 1) {
-        _swap(copyHeap, 1, j);
-        j--;
-        _swiftDown(h, 1, size);
-    }
-    return copyHeap;
-}
-
-HuffmanTreeNode *MinHeap::getTopnMax(int n) {
-    HuffmanTreeNode **copyHeap = new HuffmanTreeNode *[n + 1];
-    //可任取堆中的n个元素，将副本堆调整成最小堆
-    for (int i = 1; i <= n; i++) {
-        copyHeap[i] = h[i];
-    }
-    for (int i = n / 2; i >= 1; i--) {
-        _swiftDown(copyHeap, i, n);
-    }
-    //将父堆中的剩下size-n个元素依次跟副本堆的对顶比较,比较完后副本堆就是前n个最大的元素,对顶就是第n大的元素
-    for (int i = n + 1; i <= size; i++) {
-        if (h[i] <= copyHeap[1])
-            continue;
-        else {
-            copyHeap[1] = h[i];
-            _swiftDown(copyHeap, 1, n);
-        }
-    }
-    return copyHeap[1];
-}
-
-

@@ -52,11 +52,6 @@ public:
     //弹出堆中的TOP元素
     HuffmanTreeNode *pop();
 
-    //下面两个方法是作为Heap工具类的方法函数拓展的，对后面的HuffmanTree编码没有关系
-    HuffmanTreeNode **rankFromMax2Min();
-
-    HuffmanTreeNode *getTopnMax(int n);
-
 private:
     //向下调整
     void _swiftDown(HuffmanTreeNode *h[], int i, int &size);
