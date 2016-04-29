@@ -117,7 +117,17 @@ void HuffmanTree::writeCode(vector<int> binaryData, FILE *fout) {
             }
         }
     }
-    cout<<buffer<<"  "<<bits<<endl;
+    if (bits % 8 == 0){
+        fseek(fout, 0, SEEK_SET);
+        fputc(8, fout);
+        return;
+    }
+    int lastCodeBitsCount = bits % 8;
+//    buffer <<= 8 - lastCodeBitsCount;
+    fputc(buffer, fout);
+    //在文件开头写入最后一个字节包含的bit数
+    fseek(fout, 0, SEEK_SET);
+    fputc(lastCodeBitsCount, fout);
 }
 
 void HuffmanTree::encode(FILE *fin, FILE *fout) {
@@ -145,10 +155,33 @@ void HuffmanTree::encode(FILE *fin, FILE *fout) {
         treeNodes[++count] = new HuffmanTreeNode(weight[i], i);
     }
     HuffmanTree tree(treeNodes, count);
+    tree.writeWeight(weight,fout);
     tree.buildCodeBook();
     tree.writeCode(binaryData, fout);
     fclose(fout);
 }
+
+void HuffmanTree::writeWeight(int *weight, FILE *fout) {
+    for (int i = 0; i < 256; ++i) {
+        fputc(weight[i], fout);
+    }
+}
+
+HuffmanTree * HuffmanTree::readWeightAndBuildTree(FILE *fin) {
+    int count = 0;
+    HuffmanTreeNode **treeNodes = new HuffmanTreeNode *[256 + 1];
+    //从i=1开始，方便最小堆的建立
+    for (int i = 0; i < 256; i++) {
+        int weight=fgetc(fin);
+        if (weight == 0) continue;
+        treeNodes[++count] = new HuffmanTreeNode(weight, i);
+    }
+    return new HuffmanTree(treeNodes,count);
+}
+
+
+
+
 
 
 

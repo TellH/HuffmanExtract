@@ -52,6 +52,8 @@ public:
 
     static void encode(FILE *fin, FILE *fout);
 
+    static HuffmanTree* readWeightAndBuildTree(FILE *fin);
+
     ~HuffmanTree();
 
     //编码表
@@ -70,6 +72,8 @@ private:
     void buildCode(HuffmanTreeNode node, string s);
 
     void writeCode(vector<int> binaryData, FILE *fout);
+
+    void writeWeight(int weight[],FILE* fout);
 
 };
 

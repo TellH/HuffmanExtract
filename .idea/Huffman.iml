@@ -2,12 +2,14 @@
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/example.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/HuffmanTree.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/HuffmanTree.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Heap.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/BitStream.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Heap.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/example.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/BitStream.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Heap.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
