@@ -18,12 +18,10 @@ private:
 
     void _getNewByte();
 
-    bool end = true;
 public:
-    BitStream(FILE *fin, int lastCodesCount) : fin(fin), lastCodesCount(lastCodesCount) {end=false; }
+    BitStream(FILE *fin, int lastCodesCount) : fin(fin), lastCodesCount(lastCodesCount) { }
 
-    bool getBit();
-    bool isEnd(){ return end;}
+    bool getBit(bool &data);
 };
 
 

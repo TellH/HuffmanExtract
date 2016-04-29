@@ -46,13 +46,13 @@ public:
 
     HuffmanTreeNode *getRoot() { return root; }
 
-    string *decode(char *code[], int n);
+    static void decode(FILE* fin, FILE *fout);
 
     void buildCodeBook();
 
     static void encode(FILE *fin, FILE *fout);
 
-    static HuffmanTree* readWeightAndBuildTree(FILE *fin);
+    static HuffmanTree *readWeightAndBuildTree(FILE *fin);
 
     ~HuffmanTree();
 
@@ -65,15 +65,13 @@ private:
 
     void mergeTree(HuffmanTreeNode &lchildTree, HuffmanTreeNode *parent, HuffmanTreeNode &rchildTree);
 
-    void _Reverse(string &str);
-
     void _deleteTree(HuffmanTreeNode *p);
 
     void buildCode(HuffmanTreeNode node, string s);
 
     void writeCode(vector<int> binaryData, FILE *fout);
 
-    void writeWeight(int weight[],FILE* fout);
+    void writeWeight(int weight[], FILE *fout);
 
 };
 

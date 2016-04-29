@@ -13,7 +13,9 @@ void encode() {
 }
 
 void decode() {
-
+    FILE *fin = fopen("C:\\Users\\tlh\\ClionProjects\\Huffman\\temp.huf", "rb");
+    FILE *fout = fopen("C:\\Users\\tlh\\ClionProjects\\Huffman\\temp.bmp", "wb");
+    HuffmanTree::decode(fin,fout);
 }
 
 void readFile() {
@@ -32,7 +34,7 @@ void readFile() {
 }
 
 int main() {
-    encode();
-//    readFile();
+//    encode();
+    decode();
     return 0;
 }

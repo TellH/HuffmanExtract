@@ -5,6 +5,7 @@
 #include <cstring>
 #include "HuffmanTree.h"
 #include "Heap.h"
+#include "BitStream.h"
 
 HuffmanTree::~HuffmanTree() {
     _deleteTree(root);
@@ -44,46 +45,6 @@ void HuffmanTree::mergeTree(HuffmanTreeNode &lchildTree, HuffmanTreeNode *parent
     rchildTree.parent = parent;
 }
 
-void HuffmanTree::_Reverse(string &str) {
-    int len = str.length();
-    char tchar;
-    for (int i = 0; i < len / 2; i++) {
-        tchar = str[i];
-        str[i] = str[len - 1 - i];
-        str[len - 1 - i] = tchar;
-    }
-}
-
-string *HuffmanTree::decode(char *code[], int n) {
-    if (root == NULL) {
-        cout << "Are you kidding me?" << endl;
-    }
-    string *content = new string[n];
-    for (int i = 0; i < n; i++) {
-        char *codeNum = code[i];
-        int j = 0;
-        HuffmanTreeNode *p = root;
-        while (codeNum[j] != '\0') {
-            if (p == NULL) {
-                cout << "你输入的编码有误！没有此编码" << endl;
-                return NULL;
-            }
-            if (codeNum[j] == '0') {
-                p = p->left;
-            }
-            else if (codeNum[j] == '1') {
-                p = p->right;
-            }
-            else {
-                cout << "你输入的编码有误！" << endl;
-                return NULL;
-            }
-            j++;
-        }
-        content[i] = p->data;
-    }
-    return content;
-}
 
 void HuffmanTree::buildCodeBook() {
     buildCode(*root, "");
@@ -117,7 +78,7 @@ void HuffmanTree::writeCode(vector<int> binaryData, FILE *fout) {
             }
         }
     }
-    if (bits % 8 == 0){
+    if (bits % 8 == 0) {
         fseek(fout, 0, SEEK_SET);
         fputc(8, fout);
         return;
@@ -155,7 +116,7 @@ void HuffmanTree::encode(FILE *fin, FILE *fout) {
         treeNodes[++count] = new HuffmanTreeNode(weight[i], i);
     }
     HuffmanTree tree(treeNodes, count);
-    tree.writeWeight(weight,fout);
+    tree.writeWeight(weight, fout);
     tree.buildCodeBook();
     tree.writeCode(binaryData, fout);
     fclose(fout);
@@ -167,17 +128,37 @@ void HuffmanTree::writeWeight(int *weight, FILE *fout) {
     }
 }
 
-HuffmanTree * HuffmanTree::readWeightAndBuildTree(FILE *fin) {
+HuffmanTree *HuffmanTree::readWeightAndBuildTree(FILE *fin) {
     int count = 0;
     HuffmanTreeNode **treeNodes = new HuffmanTreeNode *[256 + 1];
     //从i=1开始，方便最小堆的建立
     for (int i = 0; i < 256; i++) {
-        int weight=fgetc(fin);
+        int weight = fgetc(fin);
         if (weight == 0) continue;
         treeNodes[++count] = new HuffmanTreeNode(weight, i);
     }
-    return new HuffmanTree(treeNodes,count);
+    return new HuffmanTree(treeNodes, count);
 }
+
+void HuffmanTree::decode(FILE *fin, FILE *fout) {
+    int lastCodeBitsCount = fgetc(fin);
+    HuffmanTree *tree = readWeightAndBuildTree(fin);
+    BitStream stream(fin, lastCodeBitsCount);
+    bool bit;
+    HuffmanTreeNode *p = tree->getRoot();
+    while (stream.getBit(bit)) {
+        if (bit == 0) p = p->left;
+        else p = p->right;
+        if (p != NULL && p->isLeaf()) {
+            fputc(p->data, fout);
+            p = tree->getRoot();
+        }
+    }
+    fclose(fin);
+    fclose(fout);
+}
+
+
 
 
 
