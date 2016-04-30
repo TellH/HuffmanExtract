@@ -7,12 +7,14 @@
 using namespace std;
 
 void encode(char src[], char dst[]) {
+    //以二进制流的方式打开IO流
     FILE *fin = fopen(src, "rb");
     FILE *fout = fopen(dst, "wb");
     HuffmanTree::encode(fin, fout);
 }
 
 void decode(char src[], char dst[]) {
+    //以二进制流的方式打开IO流
     FILE *fin = fopen(src, "rb");
     FILE *fout = fopen(dst, "wb");
     HuffmanTree::decode(fin, fout);
@@ -40,9 +42,9 @@ int main() {
     while (help(op)) {
         switch (op) {
             case 1:
-                cout<<"请输入待压缩文件路径："<<endl;
+                printf("请输入待压缩文件路径：");
                 scanf("%s", srcFile);
-                cout<<"请输入压缩文件路径："<<endl;
+                printf("请输入压缩文件路径：");
                 scanf("%s", dstFile);
                 encode(srcFile, dstFile);
                 cout << "压缩完成！" << endl;

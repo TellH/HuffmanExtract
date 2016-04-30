@@ -101,11 +101,14 @@ void HuffmanTree::writeCode(vector<int> binaryData, FILE *fout) {
 }
 
 void HuffmanTree::encode(FILE *fin, FILE *fout) {
-    int weight[256];//一个字节出现的频率
+    //统计字节出现的频率
+    //一个字节的表示范围是0-255，声明权值数组
+    int weight[256];
     if (fin == NULL) {
-        cout << "无法打开文件" << endl;
+        cout << "file not found" << endl;
         return;
     }
+    //将权值数组初始化
     memset(weight, 0, sizeof(weight));
     int c;
     vector<int> binaryData;
@@ -157,6 +160,10 @@ HuffmanTree *HuffmanTree::readWeightAndBuildTree(FILE *fin) {
 }
 
 void HuffmanTree::decode(FILE *fin, FILE *fout) {
+    if (fin == NULL) {
+        cout << "file not found" << endl;
+        return;
+    }
     HuffmanTree *tree = readWeightAndBuildTree(fin);
     int lastCodeBitsCount = fgetc(fin);
     BitStream stream(fin, lastCodeBitsCount);
