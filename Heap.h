@@ -10,7 +10,7 @@
 
 class Heap {
 protected:
-    int contain = 16;
+    int contain;
     //堆的容量
     int size;
     //堆中实时存放元素的数目多少，是逻辑数目
@@ -29,6 +29,7 @@ public:
     //构造一个空堆，可通过push方法往堆中添加元素
     Heap() {
         size = 0;
+        contain = 16;
         h = new HuffmanTreeNode *[contain + 1];
     }
 

@@ -6,6 +6,7 @@
 
 Heap::Heap(int n, HuffmanTreeNode *h[]) {
     size = n;
+    contain=16;
     if (contain >= n) { this->h = h; }
     else {
         _enlarge(h, n);
